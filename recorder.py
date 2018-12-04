@@ -5,6 +5,7 @@
 # https://gist.github.com/mabdrabo/8678538
 # https://github.com/jiaaro/pydub
 # https://github.com/vprusso/youtube_tutorials/blob/master/utility_scripts/wav_to_mp3/wav_to_mp3.py
+# https://thispointer.com/how-to-create-a-directory-in-python/
 
 import pyaudio
 import pydub
@@ -16,34 +17,49 @@ from datetime import datetime
 from time import sleep
 
 # primera = False
+ruta = 'record/'
+
 while True:
     fecha = str(datetime.now())[:19]
     hora = int(fecha[11:13]+fecha[14:16])
+    if (hora==1236):
+        ruta = ruta+fecha[:10]+'/'
+        try:
+            # Create target Directory
+            os.mkdir(ruta)
+            print("Directory " , ruta ,  " Created ") 
+        except FileExistsError:
+            print("Directory " , ruta ,  " already exists")
+
     # print(hora)
-    if (hora>=800 and hora<=1050) or (hora>=1110 and hora<=1630):
+    if (hora>=800 and hora<=1050) or (hora>=1238 and hora<=1630):
         CHUNK = 1024
         FORMAT = pyaudio.paInt16
         CHANNELS = 2
         RATE = 22000
-        RECORD_SECONDS = 300
+        RECORD_SECONDS = 30 #archivos de 5 minutos (300 segundos)
 
         p = pyaudio.PyAudio()
+
         stream = p.open(format=FORMAT,
                     channels=CHANNELS,
                     rate=RATE,
                     input=True,
                     frames_per_buffer=CHUNK)
-        # print("* recording")
 
-        WAVE_OUTPUT_FILENAME = fecha+".wav"
-        mp3file = fecha+".mp3"
+        print("* recording")
+
+        WAVE_OUTPUT_FILENAME = ruta+fecha+".wav"
+        mp3file = ruta+fecha+".mp3"
 
         frames = []
+
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = stream.read(CHUNK)
             frames.append(data)
 
-        # print("* done recording")
+        print("* done recording")
+
         stream.stop_stream()
         stream.close()
         p.terminate()
