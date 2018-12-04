@@ -28,26 +28,22 @@ while True:
         RECORD_SECONDS = 300
 
         p = pyaudio.PyAudio()
-
         stream = p.open(format=FORMAT,
                     channels=CHANNELS,
                     rate=RATE,
                     input=True,
                     frames_per_buffer=CHUNK)
-
-        print("* recording")
+        # print("* recording")
 
         WAVE_OUTPUT_FILENAME = fecha+".wav"
         mp3file = fecha+".mp3"
 
         frames = []
-
         for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             data = stream.read(CHUNK)
             frames.append(data)
 
-        print("* done recording")
-
+        # print("* done recording")
         stream.stop_stream()
         stream.close()
         p.terminate()
