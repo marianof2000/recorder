@@ -89,9 +89,9 @@ while hora<=1900:
             log = open(rutabase+"logs.txt","a+")
             log.write(fecha+" "+mp3file+"\n")
             log.close() 
-            print("* MP3 Listo")
+            print("* MP3 ready!!")
 
     else:
         # espera que sean los horarios de trabajo, no captura
-        print("* Esperando: "+str(hora))
+        print("* Waiting: "+str(hora))
         sleep(60)
